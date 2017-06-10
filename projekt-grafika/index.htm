@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8>
+		<title>My first three.js app</title>
+		
+		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
+		<script src="lib/threejs/three.min.js" /></script>
+		<script src="lib/controls/PointerLockControls.js"></script>
+		<script src="lib/shader-loader/ShaderLoader.js"></script>
+		<script src="assets/scripts/utils/Position.js"></script>
+		<script src="assets/scripts/utils/KeyEvent.js"></script>
+		<script src="assets/scripts/utils/TimeDelta.js"></script>
+		<script src="assets/scripts/utils/MouseLocker.js"></script>
+		
+		<script src="assets/scripts/Light.js"></script>
+		<script src="assets/scripts/Ground.js"></script>
+		<script src="assets/scripts/Cube.js"></script>
+		<script src="assets/scripts/Player.js"></script>
+		<script src="assets/scripts/scene.js"></script>
+	</head>
+	<body>
+		<script>
+			init();
+			
+			function onShaderLoad(vertex_shader, fragment_shader) {
+				var cube = new Cube(vertex_shader, fragment_shader, uniforms);
+				scene.add(cube.mesh);
+			}
+			
+			uniforms.resolution.value.x = window.innerWidth;
+			uniforms.resolution.value.y = window.innerHeight;
+			
+			var texture_loader = new THREE.TextureLoader();
+			var shader_loader = new ShaderLoader("assets/shaders/vertex_shader.glsl", "assets/shaders/fragment_shader.glsl", onShaderLoad);
+			
+			var ground = new Ground(texture_loader);
+			scene.add(ground.mesh);
+			
+			render();
+		</script>
+	</body>
+</html>
